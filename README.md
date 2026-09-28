@@ -17,6 +17,40 @@ Home-Assistant-Integration mit Dashboard-Karten für kompatible **RVLevel-Blueto
 - Canada AD 2019 mit eigener Originalgrafik
 - automatische Bereitstellung und Registrierung der Dashboard-Karte
 
+## Screenshots
+
+### Dashboard
+
+<table>
+  <tr>
+    <td align="center"><strong>Draufsicht</strong></td>
+    <td align="center"><strong>Seitenansicht</strong></td>
+  </tr>
+  <tr>
+    <td><img src="docs/images/dashboard-top.png" width="390" alt="RV Level Sensor Dashboard Draufsicht"></td>
+    <td><img src="docs/images/dashboard-side.png" width="390" alt="RV Level Sensor Dashboard Seitenansicht"></td>
+  </tr>
+</table>
+
+Die Dashboard-Karte zeigt Quer- und Längsneigung, die berechneten Anhebehöhen, eine Wasserwaagen-Darstellung sowie die passende Auffahrkeil-Empfehlung.
+
+### Konfiguration
+
+<table>
+  <tr>
+    <td align="center"><strong>Hersteller</strong></td>
+    <td align="center"><strong>Fahrzeugmodell</strong></td>
+    <td align="center"><strong>Auffahrkeile</strong></td>
+  </tr>
+  <tr>
+    <td><img src="docs/images/configuration-manufacturer.png" width="255" alt="Auswahl des Fahrzeugherstellers"></td>
+    <td><img src="docs/images/configuration-model.png" width="255" alt="Auswahl des Fahrzeugmodells"></td>
+    <td><img src="docs/images/configuration-wedges.png" width="255" alt="Auswahl der Auffahrkeile"></td>
+  </tr>
+</table>
+
+Die Konfiguration ist für eine spätere Erweiterung um weitere Fahrzeughersteller ausgelegt. Für hinterlegte Fahrzeugprofile werden Radstand und Spurweite automatisch verwendet.
+
 ## Voraussetzungen
 
 - Home Assistant mit Bluetooth-Unterstützung oder Bluetooth Proxy
