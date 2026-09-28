@@ -1,0 +1,56 @@
+{
+  "config": {
+    "step": {
+      "bluetooth_confirm": {
+        "title": "RV Level Sensor gefunden",
+        "description": "Soll {name} hinzugefügt werden?"
+      },
+      "user": {
+        "title": "RV Level Sensor",
+        "description": "Wähle ein gefundenes RVLevel-Gerät aus.",
+        "data": {
+          "address": "Gerät"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Dieses Gerät ist bereits eingerichtet.",
+      "no_devices_found": "Kein RVLevel-Gerät gefunden. Stelle sicher, dass es eingeschaltet und in Bluetooth-Reichweite ist.",
+      "not_supported": "Das gefundene Bluetooth-Gerät wird nicht unterstützt."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Fahrzeughersteller",
+        "description": "Wähle zuerst den Hersteller. Weitere Hersteller wie Knaus oder Hymer können später ergänzt werden.",
+        "data": {
+          "vehicle_manufacturer": "Hersteller"
+        }
+      },
+      "model": {
+        "title": "Fahrzeugmodell",
+        "description": "Wähle das Modell des Herstellers.",
+        "data": {
+          "vehicle_model": "Modell"
+        }
+      },
+      "year": {
+        "title": "Modelljahr",
+        "description": "Es werden nur die für dieses Modell hinterlegten Modelljahre angezeigt.",
+        "data": {
+          "vehicle_year": "Modelljahr"
+        }
+      },
+      "details": {
+        "title": "Fahrzeug & Auffahrkeile",
+        "description": "Ausgewählt: {vehicle}. Radstand und Spurweite werden bei hinterlegten Fahrzeugen automatisch verwendet.",
+        "data": {
+          "longitudinal_length": "Radstand (m)",
+          "transverse_width": "Spurweite (m)",
+          "wedge_profile": "Auffahrkeile"
+        }
+      }
+    }
+  }
+}
