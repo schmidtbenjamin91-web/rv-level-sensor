@@ -6,14 +6,27 @@ const XP={
   stage(v,stages=[4,8,12]){if(!Number.isFinite(v)||v<=.5)return["Kein Keil","ok"];for(let i=0;i<stages.length;i++)if(v<=stages[i])return[`Stufe ${i+1} · ${String(stages[i]).replace('.',',')} cm`,"need"];return[`Stufe ${stages.length} reicht nicht`,"bad"]}
 };
 class XBase extends HTMLElement{
- setConfig(c){this.c={entity_prefix:"sensor.rvlevel_410f",...c}}
+ setConfig(c){this.c={...c};this._resolvedPrefix=null}
+ prefix(){
+  if(this.c.entity_prefix)return this.c.entity_prefix.replace(/_+$/,'');
+  if(this._resolvedPrefix&&this.h?.states?.[`${this._resolvedPrefix}_querneigung`])return this._resolvedPrefix;
+  const suffixes=["querneigung","transverse_angle","langsneigung","längsneigung","longitudinal_angle","batterie","battery","vorne_links_anheben","front_left_lift_cm","keil_vorne_links","wedge_front_left_cm"];
+  const scores=new Map();
+  for(const id of Object.keys(this.h?.states||{})){
+   if(!id.startsWith('sensor.'))continue;
+   for(const sf of suffixes)if(id.endsWith(`_${sf}`)){const base=id.slice(0,-sf.length-1);scores.set(base,(scores.get(base)||0)+1)}
+  }
+  for(const id of Object.keys(this.h?.states||{}))if(id.startsWith('button.')&&(id.endsWith('_connect')||id.endsWith('_disconnect'))){const base='sensor.'+id.slice(7).replace(/_(connect|disconnect)$/,'');scores.set(base,(scores.get(base)||0)+3)}
+  const best=[...scores.entries()].sort((a,b)=>b[1]-a[1])[0];
+  return this._resolvedPrefix=best?.[0]||'sensor.rvlevel_410f'
+ }
  connectedCallback(){this._mounted=true}
  disconnectedCallback(){this._mounted=false;clearInterval(this._tick)}
- n(a){return XP.num(this.h,this.c.entity_prefix,a)} t(a){return XP.text(this.h,this.c.entity_prefix,a)}
+ n(a){return XP.num(this.h,this.prefix(),a)} t(a){return XP.text(this.h,this.prefix(),a)}
  vals(){return {fl:this.n(["keil_vorne_links","wedge_front_left_cm","vorne_links_anheben"]),fr:this.n(["keil_vorne_rechts","wedge_front_right_cm","vorne_rechts_anheben"]),rl:this.n(["keil_hinten_links","wedge_rear_left_cm","hinten_links_anheben"]),rr:this.n(["keil_hinten_rechts","wedge_rear_right_cm","hinten_rechts_anheben"])}}
  plan(v){const front=Math.max(v.fl||0,v.fr||0),rear=Math.max(v.rl||0,v.rr||0),ks=rear>=front?["rl","rr"]:["fl","fr"];return ks.map(k=>({k,cm:Number.isFinite(v[k])?v[k]:0})).filter(x=>x.cm>.5).slice(0,2)}
- connId(k){return `button.${this.c.entity_prefix.replace(/^sensor\./,"")}_${k}`}
- connected(){const p=this.c.entity_prefix.replace(/^sensor\./,"");for(const id of [`binary_sensor.${p}_bluetooth_connection`,`binary_sensor.${p}_connected`,`sensor.${p}_bluetooth_connection`]){const e=this.h?.states?.[id];if(e)return ["on","connected","verbunden","true"].includes(String(e.state).toLowerCase())}return null}
+ connId(k){const p=this.prefix().replace(/^sensor\./,"");const exact=`button.${p}_${k}`;if(this.h?.states?.[exact])return exact;const candidates=Object.keys(this.h?.states||{}).filter(id=>id.startsWith('button.')&&id.endsWith(`_${k}`));return candidates.find(id=>id.slice(7,-k.length-1)===p)||candidates[0]||exact}
+ connected(){const p=this.prefix().replace(/^sensor\./,"");for(const id of [`binary_sensor.${p}_bluetooth_connection`,`binary_sensor.${p}_connected`,`sensor.${p}_bluetooth_connection`]){const e=this.h?.states?.[id];if(e)return ["on","connected","verbunden","true"].includes(String(e.state).toLowerCase())}return null}
  async press(k){const id=this.connId(k);if(this.h?.states?.[id])await this.h.callService("button","press",{entity_id:id})}
  wedgeName(){const x=this.t(['keilprofil','wedge_profile']);return x&&x!=='—'?x:'Milenco · Triple Level / Triple 3'}
  vehicleLabel(){const x=this.t(['fahrzeugprofil','vehicle_profile']);return x&&x!=='—'?x:'Ahorn Camp · Canada AD · 2019'}
@@ -22,7 +35,7 @@ class XBase extends HTMLElement{
  isCanadaAD2019(){const {model,year}=this.vehicleModel();return model.trim().toLowerCase()==='canada ad'&&String(year)==='2019'}
  vehicleAsset(view){if(this.isCanadaAD2019())return view==='top'?'/rv-level-sensor/ahorn-canada-ad-2019-top-clean.png':'/rv-level-sensor/ahorn-canada-ad-2019-side-white-bumper.png';return `/rv-level-sensor/vehicles/master4-semi-${view}.png`}
  wedgeStages(){const n=this.wedgeName();const m=[[/Trident/i,[4,11,17]],[/Quattro/i,[4,8,12,16]],[/Thule/i,[4.4,7.8,11.2]],[/Froli.*XL/i,[6.5,11.5]],[/Froli/i,[4.5,7.5,10.5]],[/Premium S/i,[4,8,13]],[/Fiamma.*Level Up/i,[4,7,13]]];for(const [r,v] of m)if(r.test(n))return v;return[4,8,12]}
- header(title){return `<div class="head"><img src="/rv-level-sensor/xparkle-logo.png"><b>${title}<em class=ver>1.0.1</em></b><span>🔋 <i id="bat">—</i>%</span></div><div class="conn"><span class="pill"><i></i><b class="ct">Verbindung</b></span><button class="cb">Connect</button></div>`}
+ header(title){return `<div class="head"><img src="/rv-level-sensor/xparkle-logo.png"><b>${title}<em class=ver>1.0.1-beta.2</em></b><span>🔋 <i id="bat">—</i>%</span></div><div class="conn"><span class="pill"><i></i><b class="ct">Verbindung</b></span><button class="cb">Connect</button></div>`}
  bind(){const b=this.querySelector('.cb');if(b)b.onclick=()=>this.press(this.connected()===true?'disconnect':'connect')}
  connRender(){const on=this.connected()===true,ct=this.querySelector('.ct'),b=this.querySelector('.cb'),dot=this.querySelector('.pill i');if(!ct)return;if(on&&!this._end)this._end=Date.now()+300000;if(!on)this._end=null;const timer=()=>{if(!this._end)return '';const sec=Math.max(0,Math.ceil((this._end-Date.now())/1000));const min=Math.floor(sec/60);return ` · Auto-Aus ${String(min).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`};ct.textContent=on?'Verbunden'+timer():'Getrennt';dot.classList.toggle('on',on);b.textContent=on?'Disconnect':'Connect';b.classList.toggle('off',on);clearInterval(this._tick);if(on)this._tick=setInterval(()=>{if(this._mounted&&this.querySelector('.ct'))this.querySelector('.ct').textContent='Verbunden'+timer()},1000)}
  level(label,val,max=3){const x=Number.isFinite(val)?Math.max(-1,Math.min(1,val/max)):0;return `<div class="lv"><small>${label} (${XP.fmt(val,'°',2)})</small><div class="tube"><span class="bubble" style="left:calc(50% + ${x*34}% - 14px)"></span><i></i></div></div>`}

@@ -1,0 +1,13 @@
+# GitHub Screenshot-Update
+
+Kopiere `README.md` und den kompletten Ordner `docs` in dein lokales Repository
+`rv-level-sensor-v1.0.0` auf dem Desktop. Vorhandene README.md ersetzen.
+
+Danach im Terminal im Repository:
+
+git status
+git add README.md docs
+git commit -m "Add dashboard and configuration screenshots"
+git push
+
+Dieser Screenshot-Update ändert keinen Integrationscode und benötigt daher keinen neuen HACS-Release.
