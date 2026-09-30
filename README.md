@@ -2,7 +2,7 @@
 
 Home-Assistant-Integration mit Dashboard-Karten für kompatible **RVLevel-Bluetooth-Nivelliersensoren**. Das Projekt ist nicht auf eine einzelne Handelsmarke beschränkt und ist für den von uns verwendeten **Xparkle RV Level Sensor** sowie den **RV Level Sensor von Fritz Berger** vorgesehen, sofern das Gerät das unterstützte RVLevel-BLE-Protokoll (`RVLevel-*`, Service UUID `FFF0`) verwendet.
 
-> Version **v1.0.0** basiert auf dem getesteten Entwicklungsstand Alpha 9.7.8.
+> Aktuelle Version: **v1.0.1**. Die öffentliche v1-Serie basiert auf dem getesteten Entwicklungsstand Alpha 9.7.8.
 
 ## Funktionen
 
@@ -71,7 +71,7 @@ Die Konfiguration ist für eine spätere Erweiterung um weitere Fahrzeugherstell
 
 ### Dashboard-Ressource
 
-Ab v1.0.0 muss die JavaScript-Karte **nicht mehr manuell unter Dashboard → Ressourcen eingetragen werden**. Die Integration stellt die Dateien unter `/rv-level-sensor/` bereit und registriert die Karte beim Laden automatisch.
+Ab v1.0.1 wird die JavaScript-Karte bei Lovelace im Storage-Modus automatisch als Modul-Ressource registriert. Die Integration stellt die Dateien unter `/rv-level-sensor/` bereit. Ein manueller Ressourcen-Eintrag ist bei einer normalen HACS-Installation nicht erforderlich.
 
 Wer von Alpha 9.7.8 oder älter kommt, sollte den alten manuellen Eintrag wie `/local/xparkle-rv-level-card.js?v=978` einmalig entfernen, damit die Karte nicht doppelt geladen wird.
 
@@ -91,7 +91,7 @@ type: custom:xparkle-rv-level-side-card
 entity_prefix: sensor.rvlevel_410f
 ```
 
-Die bestehenden Entity-IDs und der interne Integrations-Domainname `xparkle_rvlevel` bleiben in v1.0.0 bewusst erhalten, damit bestehende Alpha-Installationen ohne Migration weiterlaufen.
+Die bestehenden Entity-IDs und der interne Integrations-Domainname `xparkle_rvlevel` bleiben in der v1-Serie bewusst erhalten, damit bestehende Alpha-Installationen ohne Migration weiterlaufen.
 
 ## Unterstützte Sensoren
 
@@ -101,7 +101,7 @@ Die automatische Erkennung erwartet derzeit Bluetooth-Geräte mit einem Namen `R
 
 Die Fahrzeugauswahl ist hierarchisch aufgebaut: **Hersteller → Modell → Modelljahr → Auffahrkeil**. Dadurch können später weitere Hersteller wie Knaus, Hymer oder Dethleffs ergänzt werden.
 
-Für die Darstellung gilt in v1.0.0: **Canada AD 2019** behält die eigene Referenzgrafik. Alle anderen derzeit hinterlegten Fahrzeuge verwenden den gemeinsamen Fahrzeuggrafiksatz. In der Draufsicht ist vorne oben und hinten unten.
+Für die Darstellung gilt in der v1-Serie: **Canada AD 2019** behält die eigene Referenzgrafik. Alle anderen derzeit hinterlegten Fahrzeuge verwenden den gemeinsamen Fahrzeuggrafiksatz. In der Draufsicht ist vorne oben und hinten unten.
 
 ## Updates
 
