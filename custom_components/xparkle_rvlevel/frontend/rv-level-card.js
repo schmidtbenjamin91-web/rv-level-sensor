@@ -9,16 +9,36 @@ class XBase extends HTMLElement{
  setConfig(c){this.c={...c};this._resolvedPrefix=null}
  prefix(){
   if(this.c.entity_prefix)return this.c.entity_prefix.replace(/_+$/,'');
-  if(this._resolvedPrefix&&this.h?.states?.[`${this._resolvedPrefix}_querneigung`])return this._resolvedPrefix;
-  const suffixes=["querneigung","transverse_angle","langsneigung","längsneigung","longitudinal_angle","batterie","battery","vorne_links_anheben","front_left_lift_cm","keil_vorne_links","wedge_front_left_cm"];
-  const scores=new Map();
-  for(const id of Object.keys(this.h?.states||{})){
+  const states=this.h?.states||{};
+  const required=["querneigung","langsneigung","längsneigung","transverse_angle","longitudinal_angle"];
+  const lift=["vorne_links_anheben","vorne_rechts_anheben","hinten_links_anheben","hinten_rechts_anheben","front_left_lift_cm","front_right_lift_cm","rear_left_lift_cm","rear_right_lift_cm"];
+  const extra=["batterie","battery","keil_vorne_links","keil_vorne_rechts","keil_hinten_links","keil_hinten_rechts","fahrzeugprofil","vehicle_profile","keilprofil","wedge_profile"];
+  const bases=new Set();
+  for(const id of Object.keys(states)){
    if(!id.startsWith('sensor.'))continue;
-   for(const sf of suffixes)if(id.endsWith(`_${sf}`)){const base=id.slice(0,-sf.length-1);scores.set(base,(scores.get(base)||0)+1)}
+   for(const sf of [...required,...lift,...extra])if(id.endsWith(`_${sf}`))bases.add(id.slice(0,-sf.length-1));
   }
-  for(const id of Object.keys(this.h?.states||{}))if(id.startsWith('button.')&&(id.endsWith('_connect')||id.endsWith('_disconnect'))){const base='sensor.'+id.slice(7).replace(/_(connect|disconnect)$/,'');scores.set(base,(scores.get(base)||0)+3)}
-  const best=[...scores.entries()].sort((a,b)=>b[1]-a[1])[0];
-  return this._resolvedPrefix=best?.[0]||'sensor.rvlevel_410f'
+  let best=null,bestScore=-1;
+  for(const base of bases){
+   let score=0,measure=0,lifts=0;
+   for(const sf of required)if(states[`${base}_${sf}`]){score+=8;measure++}
+   for(const sf of lift)if(states[`${base}_${sf}`]){score+=3;lifts++}
+   for(const sf of extra)if(states[`${base}_${sf}`])score+=1;
+   const p=base.replace(/^sensor\./,'');
+   if(states[`button.${p}_connect`])score+=10;
+   if(states[`button.${p}_disconnect`])score+=10;
+   if(states[`binary_sensor.${p}_bluetooth_connection`]||states[`binary_sensor.${p}_connected`])score+=6;
+   if(measure===0&&lifts===0)continue;
+   if(score>bestScore){bestScore=score;best=base}
+  }
+  if(best){this._resolvedPrefix=best;return best}
+  // Last-resort: derive a prefix from an RV Level connect button only when
+  // corresponding sensor entities exist under the same base.
+  for(const id of Object.keys(states))if(id.startsWith('button.')&&id.endsWith('_connect')){
+   const p=id.slice(7,-8),base=`sensor.${p}`;
+   if(Object.keys(states).some(x=>x.startsWith(base+'_'))){this._resolvedPrefix=base;return base}
+  }
+  return this._resolvedPrefix||'sensor.rvlevel_410f'
  }
  connectedCallback(){this._mounted=true}
  disconnectedCallback(){this._mounted=false;clearInterval(this._tick)}
@@ -35,7 +55,7 @@ class XBase extends HTMLElement{
  isCanadaAD2019(){const {model,year}=this.vehicleModel();return model.trim().toLowerCase()==='canada ad'&&String(year)==='2019'}
  vehicleAsset(view){if(this.isCanadaAD2019())return view==='top'?'/rv-level-sensor/ahorn-canada-ad-2019-top-clean.png':'/rv-level-sensor/ahorn-canada-ad-2019-side-white-bumper.png';return `/rv-level-sensor/vehicles/master4-semi-${view}.png`}
  wedgeStages(){const n=this.wedgeName();const m=[[/Trident/i,[4,11,17]],[/Quattro/i,[4,8,12,16]],[/Thule/i,[4.4,7.8,11.2]],[/Froli.*XL/i,[6.5,11.5]],[/Froli/i,[4.5,7.5,10.5]],[/Premium S/i,[4,8,13]],[/Fiamma.*Level Up/i,[4,7,13]]];for(const [r,v] of m)if(r.test(n))return v;return[4,8,12]}
- header(title){return `<div class="head"><img src="/rv-level-sensor/xparkle-logo.png"><b>${title}<em class=ver>1.0.1-beta.2</em></b><span>🔋 <i id="bat">—</i>%</span></div><div class="conn"><span class="pill"><i></i><b class="ct">Verbindung</b></span><button class="cb">Connect</button></div>`}
+ header(title){return `<div class="head"><img src="/rv-level-sensor/xparkle-logo.png"><b>${title}<em class=ver>1.0.1-beta.3</em></b><span>🔋 <i id="bat">—</i>%</span></div><div class="conn"><span class="pill"><i></i><b class="ct">Verbindung</b></span><button class="cb">Connect</button></div>`}
  bind(){const b=this.querySelector('.cb');if(b)b.onclick=()=>this.press(this.connected()===true?'disconnect':'connect')}
  connRender(){const on=this.connected()===true,ct=this.querySelector('.ct'),b=this.querySelector('.cb'),dot=this.querySelector('.pill i');if(!ct)return;if(on&&!this._end)this._end=Date.now()+300000;if(!on)this._end=null;const timer=()=>{if(!this._end)return '';const sec=Math.max(0,Math.ceil((this._end-Date.now())/1000));const min=Math.floor(sec/60);return ` · Auto-Aus ${String(min).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`};ct.textContent=on?'Verbunden'+timer():'Getrennt';dot.classList.toggle('on',on);b.textContent=on?'Disconnect':'Connect';b.classList.toggle('off',on);clearInterval(this._tick);if(on)this._tick=setInterval(()=>{if(this._mounted&&this.querySelector('.ct'))this.querySelector('.ct').textContent='Verbunden'+timer()},1000)}
  level(label,val,max=3){const x=Number.isFinite(val)?Math.max(-1,Math.min(1,val/max)):0;return `<div class="lv"><small>${label} (${XP.fmt(val,'°',2)})</small><div class="tube"><span class="bubble" style="left:calc(50% + ${x*34}% - 14px)"></span><i></i></div></div>`}
