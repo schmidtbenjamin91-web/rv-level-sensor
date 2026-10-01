@@ -51,9 +51,18 @@ class XBase extends HTMLElement{
  wedgeName(){const x=this.t(['keilprofil','wedge_profile']);return x&&x!=='—'?x:'Milenco · Triple Level / Triple 3'}
  vehicleLabel(){const x=this.t(['fahrzeugprofil','vehicle_profile']);return x&&x!=='—'?x:'Ahorn Camp · Canada AD · 2019'}
  vehicleModel(){const x=this.vehicleLabel();const m=x.match(/Ahorn Camp\s*·\s*(.*?)\s*·\s*(20\d{2})/);return m?{model:m[1],year:m[2]}:{model:'Canada AD',year:'2019'}}
- vehicleFamily(){return'master4-semi'}
+  vehicleFamily(){return'master4-semi'}
+ isCanadaAD(){return this.vehicleModel().model.trim().toLowerCase()==='canada ad'}
  isCanadaAD2019(){const {model,year}=this.vehicleModel();return model.trim().toLowerCase()==='canada ad'&&String(year)==='2019'}
- vehicleAsset(view){if(this.isCanadaAD2019())return view==='top'?'/rv-level-sensor/ahorn-canada-ad-2019-top-clean.png':'/rv-level-sensor/ahorn-canada-ad-2019-side-white-bumper.png';return `/rv-level-sensor/vehicles/master4-semi-${view}.png`}
+ vehicleAsset(view){
+  if(this.isCanadaAD()){
+   if(view==='top')return '/rv-level-sensor/ahorn-canada-ad-2019-top-clean.png';
+   return this.isCanadaAD2019()
+    ?'/rv-level-sensor/ahorn-canada-ad-2019-side-white-bumper.png'
+    :'/rv-level-sensor/vehicles/canada-ad-side.png'
+  }
+  return `/rv-level-sensor/vehicles/master4-semi-${view}.png`
+ }
  wedgeStages(){const n=this.wedgeName();const m=[[/Trident/i,[4,11,17]],[/Quattro/i,[4,8,12,16]],[/Thule/i,[4.4,7.8,11.2]],[/Froli.*XL/i,[6.5,11.5]],[/Froli/i,[4.5,7.5,10.5]],[/Premium S/i,[4,8,13]],[/Fiamma.*Level Up/i,[4,7,13]]];for(const [r,v] of m)if(r.test(n))return v;return[4,8,12]}
  header(title){return `<div class="head"><img src="/rv-level-sensor/xparkle-logo.png"><b>${title}<em class=ver>1.0.1-beta.4</em></b><span>🔋 <i id="bat">—</i>%</span></div><div class="conn"><span class="pill"><i></i><b class="ct">Verbindung</b></span><button class="cb">Connect</button></div>`}
  bind(){const b=this.querySelector('.cb');if(b)b.onclick=()=>this.press(this.connected()===true?'disconnect':'connect')}
