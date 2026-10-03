@@ -17,12 +17,16 @@ CONF_VEHICLE_MANUFACTURER = "vehicle_manufacturer"
 CONF_VEHICLE_MODEL = "vehicle_model"
 CONF_VEHICLE_YEAR = "vehicle_year"
 CONF_WEDGE_PROFILE = "wedge_profile"
+CONF_SENSOR_ORIENTATION = "sensor_orientation"
+SENSOR_ORIENTATION_NORMAL = "normal"
+SENSOR_ORIENTATION_ROTATED_180 = "rotated_180"
 # Kept only for backwards compatibility with existing config entries.
 CONF_WEDGE_COUNT = "wedge_count"
 DEFAULT_LONGITUDINAL_LENGTH = 4.332
 DEFAULT_TRANSVERSE_WIDTH = 1.74
 DEFAULT_VEHICLE_PROFILE = "ahorn_canada_ad_2019"
 DEFAULT_WEDGE_PROFILE = "milenco_triple_3"
+DEFAULT_SENSOR_ORIENTATION = SENSOR_ORIENTATION_NORMAL
 DEFAULT_WEDGE_COUNT = 2
 
 # track is the effective transverse calculation width. For Master III profiles
