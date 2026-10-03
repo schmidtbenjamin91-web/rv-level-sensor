@@ -11,6 +11,8 @@ from .const import (
     DEFAULT_LONGITUDINAL_LENGTH, DEFAULT_TRANSVERSE_WIDTH,
     CONF_VEHICLE_PROFILE, CONF_VEHICLE_MANUFACTURER, CONF_VEHICLE_MODEL, CONF_VEHICLE_YEAR,
     CONF_WEDGE_PROFILE, DEFAULT_VEHICLE_PROFILE, DEFAULT_WEDGE_PROFILE,
+    CONF_SENSOR_ORIENTATION, DEFAULT_SENSOR_ORIENTATION,
+    SENSOR_ORIENTATION_NORMAL, SENSOR_ORIENTATION_ROTATED_180,
     VEHICLE_PROFILES, WEDGE_PROFILES,
 )
 
@@ -77,6 +79,7 @@ class XparkleRVLevelOptionsFlow(config_entries.OptionsFlow):
         profile=self._selection.get(CONF_VEHICLE_PROFILE,"custom" if custom else self._current_profile())
         vehicle=VEHICLE_PROFILES.get(profile,{})
         current_wedge=o.get(CONF_WEDGE_PROFILE,DEFAULT_WEDGE_PROFILE)
+        current_orientation=o.get(CONF_SENSOR_ORIENTATION,DEFAULT_SENSOR_ORIENTATION)
         current_length=o.get(CONF_LONGITUDINAL_LENGTH,DEFAULT_LONGITUDINAL_LENGTH); current_width=o.get(CONF_TRANSVERSE_WIDTH,DEFAULT_TRANSVERSE_WIDTH)
         if user_input is not None:
             data=dict(o); data.update(user_input); data.update(self._selection); data[CONF_VEHICLE_PROFILE]=profile
@@ -87,7 +90,10 @@ class XparkleRVLevelOptionsFlow(config_entries.OptionsFlow):
             schema=vol.Schema({
                 vol.Required(CONF_LONGITUDINAL_LENGTH,default=current_length):vol.All(vol.Coerce(float),vol.Range(min=.5,max=20)),
                 vol.Required(CONF_TRANSVERSE_WIDTH,default=current_width):vol.All(vol.Coerce(float),vol.Range(min=.5,max=5)),
-                vol.Required(CONF_WEDGE_PROFILE,default=current_wedge):vol.In({k:v["label"] for k,v in WEDGE_PROFILES.items()}),})
+                vol.Required(CONF_WEDGE_PROFILE,default=current_wedge):vol.In({k:v["label"] for k,v in WEDGE_PROFILES.items()}),
+                vol.Required(CONF_SENSOR_ORIENTATION,default=current_orientation):vol.In({SENSOR_ORIENTATION_NORMAL:"Normal",SENSOR_ORIENTATION_ROTATED_180:"180° gedreht"}),})
         else:
-            schema=vol.Schema({vol.Required(CONF_WEDGE_PROFILE,default=current_wedge):vol.In({k:v["label"] for k,v in WEDGE_PROFILES.items()})})
+            schema=vol.Schema({
+                vol.Required(CONF_WEDGE_PROFILE,default=current_wedge):vol.In({k:v["label"] for k,v in WEDGE_PROFILES.items()}),
+                vol.Required(CONF_SENSOR_ORIENTATION,default=current_orientation):vol.In({SENSOR_ORIENTATION_NORMAL:"Normal",SENSOR_ORIENTATION_ROTATED_180:"180° gedreht"}),})
         return self.async_show_form(step_id="details",data_schema=schema,description_placeholders={"vehicle":vehicle.get("label","Benutzerdefiniert")})
