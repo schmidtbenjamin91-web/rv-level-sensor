@@ -2,7 +2,7 @@
 
 Home-Assistant-Integration mit Dashboard-Karten für kompatible **RVLevel-Bluetooth-Nivelliersensoren**. Das Projekt ist nicht auf eine einzelne Handelsmarke beschränkt und ist für den von uns verwendeten **Xparkle RV Level Sensor** sowie den **RV Level Sensor von Fritz Berger** vorgesehen, sofern das Gerät das unterstützte RVLevel-BLE-Protokoll (`RVLevel-*`, Service UUID `FFF0`) verwendet.
 
-> Aktuelle Version: **v1.0.1**. Die öffentliche v1-Serie basiert auf dem getesteten Entwicklungsstand Alpha 9.7.8.
+> Aktuelle stabile Version: **v1.0.0** · Aktuelle Testversion: **v1.0.1-beta.5**.
 
 ## Funktionen
 
@@ -16,6 +16,8 @@ Home-Assistant-Integration mit Dashboard-Karten für kompatible **RVLevel-Blueto
 - Ahorn-Camp-Profile 2019–2026
 - Canada AD 2019 mit eigener Originalgrafik
 - automatische Bereitstellung und Registrierung der Dashboard-Karte
+- automatische Erkennung des passenden Entity-Prefix
+- einstellbare Sensorausrichtung: **Normal** oder **180° gedreht**
 
 ## Screenshots
 
@@ -49,7 +51,7 @@ Die Dashboard-Karte zeigt Quer- und Längsneigung, die berechneten Anhebehöhen,
   </tr>
 </table>
 
-Die Konfiguration ist für eine spätere Erweiterung um weitere Fahrzeughersteller ausgelegt. Für hinterlegte Fahrzeugprofile werden Radstand und Spurweite automatisch verwendet.
+Die Konfiguration ist für eine spätere Erweiterung um weitere Fahrzeughersteller ausgelegt. Für hinterlegte Fahrzeugprofile werden Radstand und Spurweite automatisch verwendet. Ab **v1.0.1-beta.5** kann zusätzlich die **Sensorausrichtung** auf **Normal** oder **180° gedreht** gestellt werden. Bei 180° werden Vorder-/Hinterachse sowie Links/Rechts für Winkel, Radhöhen und Keilempfehlungen entsprechend korrigiert.
 
 ## Voraussetzungen
 
@@ -77,17 +79,30 @@ Wer von Alpha 9.7.8 oder älter kommt, sollte den alten manuellen Eintrag wie `/
 
 ## Dashboard-Karten
 
-Draufsicht:
+Ab **v1.0.1-beta.3** wird der passende Entity-Prefix automatisch erkannt. Bei einer normalen Installation ist deshalb kein `entity_prefix` mehr nötig.
+
+Hauptansicht:
 
 ```yaml
 type: custom:xparkle-rv-level-card
-entity_prefix: sensor.rvlevel_410f
 ```
 
-Seitenansicht (falls im bestehenden Dashboard so konfiguriert):
+Draufsicht:
+
+```yaml
+type: custom:xparkle-rv-level-top-card
+```
+
+Seitenansicht:
 
 ```yaml
 type: custom:xparkle-rv-level-side-card
+```
+
+Falls die automatische Erkennung in einer speziellen Installation nicht möglich ist, kann der Prefix weiterhin manuell angegeben werden, zum Beispiel:
+
+```yaml
+type: custom:xparkle-rv-level-card
 entity_prefix: sensor.rvlevel_410f
 ```
 
