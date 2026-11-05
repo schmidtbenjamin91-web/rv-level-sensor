@@ -1,0 +1,13 @@
+# GitHub screenshot update
+
+Copy `README.md` and the complete `docs` folder into your local repository
+`rv-level-sensor-v1.0.0` on the desktop. Replace the existing README.md.
+
+Then, in a terminal inside the repository:
+
+git status
+git add README.md docs
+git commit -m "Add dashboard and configuration screenshots"
+git push
+
+This screenshot update does not change any integration code and therefore does not require a new HACS release.

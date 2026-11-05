@@ -14,7 +14,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
 
 class RVLevelConnection(BinarySensorEntity):
     _attr_has_entity_name = True
-    _attr_name = "Bluetooth connection"
+    _attr_translation_key = "bluetooth_connection"
     _attr_device_class = BinarySensorDeviceClass.CONNECTIVITY
 
     def __init__(self, coordinator: RVLevelCoordinator) -> None:

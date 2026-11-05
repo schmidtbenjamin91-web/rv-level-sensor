@@ -1,11 +1,11 @@
 # v1.0.0
 
-Erster öffentlicher GitHub/HACS-Release auf Basis des getesteten Alpha-9.7.8-Stands.
+First public GitHub/HACS release, based on the tested Alpha 9.7.8 state.
 
-- HACS-fähige Repository-Struktur
-- Versionsnummer auf 1.0.0 umgestellt
-- Dashboard-Karte wird von der Integration selbst bereitgestellt und automatisch geladen
-- kein manueller `/local/...`-Ressourceneintrag mehr erforderlich
-- Projektbeschreibung auf kompatible RVLevel-Sensoren erweitert, einschließlich Xparkle und Fritz Berger
-- bestehender Domainname `xparkle_rvlevel` bleibt für Upgrade-Kompatibilität erhalten
-- Canada AD 2019 bleibt unverändert
+- HACS-compatible repository structure
+- Version number changed to 1.0.0
+- Dashboard card is served and loaded automatically by the integration itself
+- Manual `/local/...` resource entry no longer required
+- Project description extended to compatible RVLevel sensors, including Xparkle and Fritz Berger
+- Existing domain name `xparkle_rvlevel` retained for upgrade compatibility
+- Canada AD 2019 unchanged

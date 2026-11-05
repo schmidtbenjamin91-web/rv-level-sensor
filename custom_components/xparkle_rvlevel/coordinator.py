@@ -441,16 +441,16 @@ class RVLevelCoordinator:
             "rear_left_high_cm", "rear_right_high_cm",
         ))
         if max_high <= 0.5:
-            self.state.level_status = "Nivelliert"
+            self.state.level_status = "Levelled"
         elif max_high <= 2.0:
-            self.state.level_status = "Fast nivelliert"
+            self.state.level_status = "Almost level"
         else:
-            self.state.level_status = "Korrektur erforderlich"
+            self.state.level_status = "Correction required"
 
         # Wheel-wedge recommendation. A "too high" corner must NOT receive a
         # wedge; instead the lower corners are raised until all four corners
         # reach the current highest plane. This makes the driver instruction
-        # the inverse of the physical "zu hoch" display.
+        # the inverse of the physical "too high" display.
         highs = {
             "front_left": self.state.front_left_high_cm or 0.0,
             "front_right": self.state.front_right_high_cm or 0.0,
@@ -467,26 +467,26 @@ class RVLevelCoordinator:
 
         needed = []
         labels = (
-            ("front_left", "vorne links"),
-            ("front_right", "vorne rechts"),
-            ("rear_left", "hinten links"),
-            ("rear_right", "hinten rechts"),
+            ("front_left", "front left"),
+            ("front_right", "front right"),
+            ("rear_left", "rear left"),
+            ("rear_right", "rear right"),
         )
         for key, label in labels:
             if wedges[key] > 0.5:
                 needed.append(f"{label} {wedges[key]:.1f} cm")
 
         if not needed:
-            self.state.wedge_instruction = "Keine Keile erforderlich"
+            self.state.wedge_instruction = "No wedges required"
         else:
-            self.state.wedge_instruction = "Keil: " + ", ".join(needed)
+            self.state.wedge_instruction = "Wedges: " + ", ".join(needed)
 
         def _triple3(cm: float) -> str:
-            if cm <= 0.5: return "Kein Keil"
-            if cm <= 4.0: return f"Stufe 1 (4 cm) · benötigt {cm:.1f} cm"
-            if cm <= 8.0: return f"Stufe 2 (8 cm) · benötigt {cm:.1f} cm"
-            if cm <= 12.0: return f"Stufe 3 (12 cm) · benötigt {cm:.1f} cm"
-            return f"Stufe 3 reicht nicht · benötigt {cm:.1f} cm"
+            if cm <= 0.5: return "No wedge"
+            if cm <= 4.0: return f"Step 1 (4 cm) · needs {cm:.1f} cm"
+            if cm <= 8.0: return f"Step 2 (8 cm) · needs {cm:.1f} cm"
+            if cm <= 12.0: return f"Step 3 (12 cm) · needs {cm:.1f} cm"
+            return f"Step 3 insufficient · needs {cm:.1f} cm"
         self.state.triple_front_left = _triple3(wedges["front_left"])
         self.state.triple_front_right = _triple3(wedges["front_right"])
         self.state.triple_rear_left = _triple3(wedges["rear_left"])

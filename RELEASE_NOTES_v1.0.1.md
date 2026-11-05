@@ -1,20 +1,20 @@
 # v1.0.1
 
-Bugfix-Release für frische HACS-Installationen.
+Bugfix release for fresh HACS installations.
 
-## Behoben
+## Fixed
 
-- Dashboard-Karte wird in Lovelace Storage Mode automatisch als JavaScript-Modul registriert.
-- Vorhandene RV-Level-Ressource wird auf `?v=1.0.1` aktualisiert statt doppelt angelegt.
-- `add_extra_js_url()` bleibt als Fallback erhalten.
-- Versionsanzeige der Karte auf 1.0.1 aktualisiert.
+- Dashboard card is automatically registered as a JavaScript module in Lovelace storage mode.
+- An existing RV Level resource is updated to `?v=1.0.1` instead of being created twice.
+- `add_extra_js_url()` is kept as a fallback.
+- Card version display updated to 1.0.1.
 
-## Unverändert
+## Unchanged
 
-- Sensor- und Berechnungslogik
-- Fahrzeug- und Keildaten
-- Canada AD 2019 Sondergrafiken
-- gemeinsamer Grafiksatz der übrigen Fahrzeuge
-- bestehende Entity-IDs / Domain `xparkle_rvlevel`
+- Sensor and calculation logic
+- Vehicle and wedge data
+- Canada AD 2019 dedicated graphics
+- Shared graphics set for all other vehicles
+- Existing entity IDs / domain `xparkle_rvlevel`
 
-Hinweis: Bei Lovelace im YAML-Ressourcenmodus kann Home Assistant Ressourcen nicht über die Storage-Sammlung verwalten; dort bleibt eine manuelle Ressourcen-Konfiguration erforderlich.
+Note: with Lovelace in YAML resource mode, Home Assistant cannot manage resources through the storage collection; manual resource configuration remains necessary there.

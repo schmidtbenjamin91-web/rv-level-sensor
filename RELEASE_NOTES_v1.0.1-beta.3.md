@@ -1,21 +1,21 @@
 # RV Level Sensor v1.0.1 Beta 3
 
-Testversion mit robusterer automatischer Entity-Erkennung.
+Test release with more robust automatic entity detection.
 
-## Änderungen
-- Automatische Prefix-Erkennung bewertet jetzt zusammengehörige Neigungs-, Höhen-, Batterie-, Connect/Disconnect- und Verbindungs-Entities.
-- Manuell gesetztes `entity_prefix` bleibt unverändert als Override erhalten.
-- Die in Beta 2 funktionierende automatische Dashboard-Ressourcenregistrierung bleibt erhalten.
-- Frontend-Cachekennung auf `1.0.1-beta.3` erhöht.
+## Changes
+- Automatic prefix detection now scores related inclination, height, battery, connect/disconnect and connection entities together.
+- A manually set `entity_prefix` remains unchanged as an override.
+- The automatic dashboard resource registration that worked in Beta 2 is retained.
+- Frontend cache identifier bumped to `1.0.1-beta.3`.
 
 ## Test
-Zuerst ohne Prefix testen:
+First test without a prefix:
 
 ```yaml
 type: custom:xparkle-rv-level-card
 ```
 
-Bei Bedarf bleibt die manuelle Variante möglich:
+If required, the manual variant is still available:
 
 ```yaml
 type: custom:xparkle-rv-level-card

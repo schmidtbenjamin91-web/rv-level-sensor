@@ -53,5 +53,109 @@
         }
       }
     }
+  },
+  "entity": {
+    "binary_sensor": {
+      "bluetooth_connection": {
+        "name": "Bluetooth-Verbindung"
+      }
+    },
+    "button": {
+      "read_now": {
+        "name": "BLE-Werte jetzt lesen"
+      },
+      "connect": {
+        "name": "Verbinden"
+      },
+      "disconnect": {
+        "name": "Trennen"
+      }
+    },
+    "sensor": {
+      "longitudinal_angle": {
+        "name": "Längsneigung"
+      },
+      "transverse_angle": {
+        "name": "Querneigung"
+      },
+      "configured_length_m": {
+        "name": "Berechnungslänge"
+      },
+      "configured_width_m": {
+        "name": "Berechnungsbreite"
+      },
+      "vehicle_profile": {
+        "name": "Fahrzeugprofil"
+      },
+      "wedge_profile": {
+        "name": "Keilprofil"
+      },
+      "wedge_count": {
+        "name": "Keilanzahl"
+      },
+      "auto_disconnect_remaining": {
+        "name": "Auto-Disconnect Restzeit"
+      },
+      "longitudinal_lift_cm": {
+        "name": "Längskorrektur"
+      },
+      "transverse_lift_cm": {
+        "name": "Querkorrektur"
+      },
+      "front_left_lift_cm": {
+        "name": "Vorne links anheben"
+      },
+      "front_right_lift_cm": {
+        "name": "Vorne rechts anheben"
+      },
+      "rear_left_lift_cm": {
+        "name": "Hinten links anheben"
+      },
+      "rear_right_lift_cm": {
+        "name": "Hinten rechts anheben"
+      },
+      "front_left_high_cm": {
+        "name": "Vorne links zu hoch"
+      },
+      "front_right_high_cm": {
+        "name": "Vorne rechts zu hoch"
+      },
+      "rear_left_high_cm": {
+        "name": "Hinten links zu hoch"
+      },
+      "rear_right_high_cm": {
+        "name": "Hinten rechts zu hoch"
+      },
+      "level_status": {
+        "name": "Nivellierstatus"
+      },
+      "wedge_front_left_cm": {
+        "name": "Keil vorne links"
+      },
+      "wedge_front_right_cm": {
+        "name": "Keil vorne rechts"
+      },
+      "wedge_rear_left_cm": {
+        "name": "Keil hinten links"
+      },
+      "wedge_rear_right_cm": {
+        "name": "Keil hinten rechts"
+      },
+      "wedge_instruction": {
+        "name": "Keilempfehlung"
+      },
+      "triple_front_left": {
+        "name": "Milenco vorne links"
+      },
+      "triple_front_right": {
+        "name": "Milenco vorne rechts"
+      },
+      "triple_rear_left": {
+        "name": "Milenco hinten links"
+      },
+      "triple_rear_right": {
+        "name": "Milenco hinten rechts"
+      }
+    }
   }
 }

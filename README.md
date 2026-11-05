@@ -1,23 +1,24 @@
 # RV Level Sensor for Home Assistant
 
-Home-Assistant-Integration mit Dashboard-Karten für kompatible **RVLevel-Bluetooth-Nivelliersensoren**. Das Projekt ist nicht auf eine einzelne Handelsmarke beschränkt und ist für den von uns verwendeten **Xparkle RV Level Sensor** sowie den **RV Level Sensor von Fritz Berger** vorgesehen, sofern das Gerät das unterstützte RVLevel-BLE-Protokoll (`RVLevel-*`, Service UUID `FFF0`) verwendet.
+Home Assistant integration with dashboard cards for compatible **RVLevel Bluetooth levelling sensors**. The project is not limited to a single brand and is intended for the **Xparkle RV Level Sensor** we use, as well as the **Fritz Berger RV Level Sensor**, provided the device uses the supported RVLevel BLE protocol (`RVLevel-*`, service UUID `FFF0`).
 
-> Aktuelle stabile Version: **v1.0.0** · Aktuelle Testversion: **v1.0.1-beta.5**.
+> Current stable version: **v1.0.0** · Current test version: **v1.0.1-beta.5**.
 
-## Funktionen
+## Features
 
-- lokale Bluetooth-Verbindung in Home Assistant
-- Quer- und Längsneigung
-- berechnete Höhendifferenz an den Rädern
-- Draufsicht und Seitenansicht
-- Wasserwaagen-Anzeige
-- Auffahrkeil-Empfehlungen
-- Fahrzeugprofile und Modelljahre
-- Ahorn-Camp-Profile 2019–2026
-- Canada AD 2019 mit eigener Originalgrafik
-- automatische Bereitstellung und Registrierung der Dashboard-Karte
-- automatische Erkennung des passenden Entity-Prefix
-- einstellbare Sensorausrichtung: **Normal** oder **180° gedreht**
+- local Bluetooth connection in Home Assistant
+- transverse and longitudinal inclination
+- calculated height difference at each wheel
+- top view and side view
+- spirit level display
+- levelling wedge recommendations
+- vehicle profiles and model years
+- Ahorn Camp profiles 2019–2026
+- Canada AD 2019 with its own original graphics
+- automatic provisioning and registration of the dashboard card
+- automatic detection of the matching entity prefix
+- configurable sensor orientation: **Normal** or **Rotated 180°**
+- English user interface, with German translations for the configuration flow and entity names
 
 ## Screenshots
 
@@ -25,109 +26,109 @@ Home-Assistant-Integration mit Dashboard-Karten für kompatible **RVLevel-Blueto
 
 <table>
   <tr>
-    <td align="center"><strong>Draufsicht</strong></td>
-    <td align="center"><strong>Seitenansicht</strong></td>
+    <td align="center"><strong>Top view</strong></td>
+    <td align="center"><strong>Side view</strong></td>
   </tr>
   <tr>
-    <td><img src="docs/images/dashboard-top.png" width="390" alt="RV Level Sensor Dashboard Draufsicht"></td>
-    <td><img src="docs/images/dashboard-side.png" width="390" alt="RV Level Sensor Dashboard Seitenansicht"></td>
+    <td><img src="docs/images/dashboard-top.png" width="390" alt="RV Level Sensor dashboard, top view"></td>
+    <td><img src="docs/images/dashboard-side.png" width="390" alt="RV Level Sensor dashboard, side view"></td>
   </tr>
 </table>
 
-Die Dashboard-Karte zeigt Quer- und Längsneigung, die berechneten Anhebehöhen, eine Wasserwaagen-Darstellung sowie die passende Auffahrkeil-Empfehlung.
+The dashboard card shows transverse and longitudinal inclination, the calculated lift heights, a spirit level display and the matching levelling wedge recommendation.
 
-### Konfiguration
+### Configuration
 
 <table>
   <tr>
-    <td align="center"><strong>Hersteller</strong></td>
-    <td align="center"><strong>Fahrzeugmodell</strong></td>
-    <td align="center"><strong>Auffahrkeile</strong></td>
+    <td align="center"><strong>Manufacturer</strong></td>
+    <td align="center"><strong>Vehicle model</strong></td>
+    <td align="center"><strong>Levelling wedges</strong></td>
   </tr>
   <tr>
-    <td><img src="docs/images/configuration-manufacturer.png" width="255" alt="Auswahl des Fahrzeugherstellers"></td>
-    <td><img src="docs/images/configuration-model.png" width="255" alt="Auswahl des Fahrzeugmodells"></td>
-    <td><img src="docs/images/configuration-wedges.png" width="255" alt="Auswahl der Auffahrkeile"></td>
+    <td><img src="docs/images/configuration-manufacturer.png" width="255" alt="Vehicle manufacturer selection"></td>
+    <td><img src="docs/images/configuration-model.png" width="255" alt="Vehicle model selection"></td>
+    <td><img src="docs/images/configuration-wedges.png" width="255" alt="Levelling wedge selection"></td>
   </tr>
 </table>
 
-Die Konfiguration ist für eine spätere Erweiterung um weitere Fahrzeughersteller ausgelegt. Für hinterlegte Fahrzeugprofile werden Radstand und Spurweite automatisch verwendet. Ab **v1.0.1-beta.5** kann zusätzlich die **Sensorausrichtung** auf **Normal** oder **180° gedreht** gestellt werden. Bei 180° werden Vorder-/Hinterachse sowie Links/Rechts für Winkel, Radhöhen und Keilempfehlungen entsprechend korrigiert.
+The configuration is designed to be extended with further vehicle manufacturers later. For built-in vehicle profiles, wheelbase and track width are applied automatically. From **v1.0.1-beta.5**, the **sensor orientation** can additionally be set to **Normal** or **Rotated 180°**. At 180°, front/rear axle and left/right are corrected accordingly for angles, wheel heights and wedge recommendations.
 
-## Voraussetzungen
+## Requirements
 
-- Home Assistant mit Bluetooth-Unterstützung oder Bluetooth Proxy
-- kompatibler RVLevel-Sensor in Bluetooth-Reichweite
-- HACS für die empfohlene Installation
+- Home Assistant with Bluetooth support or a Bluetooth proxy
+- compatible RVLevel sensor within Bluetooth range
+- HACS for the recommended installation
 
-## Installation über HACS
+## Installation via HACS
 
-1. Dieses Repository in GitHub veröffentlichen: `schmidtbenjamin91-web/rv-level-sensor`.
-2. In Home Assistant **HACS → Integrationen** öffnen.
-3. Über das Menü **Benutzerdefinierte Repositories** öffnen.
-4. Repository eintragen: `https://github.com/schmidtbenjamin91-web/rv-level-sensor`
-5. Kategorie **Integration** wählen.
-6. **RV Level Sensor** installieren.
-7. Home Assistant vollständig neu starten.
-8. **Einstellungen → Geräte & Dienste → Integration hinzufügen → RV Level Sensor** öffnen.
-9. Sensor einschalten und das gefundene `RVLevel-*`-Gerät auswählen.
+1. Publish this repository on GitHub: `schmidtbenjamin91-web/rv-level-sensor`.
+2. In Home Assistant, open **HACS → Integrations**.
+3. Open **Custom repositories** from the menu.
+4. Enter the repository: `https://github.com/schmidtbenjamin91-web/rv-level-sensor`
+5. Select the category **Integration**.
+6. Install **RV Level Sensor**.
+7. Fully restart Home Assistant.
+8. Open **Settings → Devices & services → Add integration → RV Level Sensor**.
+9. Switch the sensor on and select the discovered `RVLevel-*` device.
 
-### Dashboard-Ressource
+### Dashboard resource
 
-Ab v1.0.1 wird die JavaScript-Karte bei Lovelace im Storage-Modus automatisch als Modul-Ressource registriert. Die Integration stellt die Dateien unter `/rv-level-sensor/` bereit. Ein manueller Ressourcen-Eintrag ist bei einer normalen HACS-Installation nicht erforderlich.
+From v1.0.1, the JavaScript card is automatically registered as a module resource when Lovelace is in storage mode. The integration serves the files under `/rv-level-sensor/`. A manual resource entry is not required for a normal HACS installation.
 
-Wer von Alpha 9.7.8 oder älter kommt, sollte den alten manuellen Eintrag wie `/local/xparkle-rv-level-card.js?v=978` einmalig entfernen, damit die Karte nicht doppelt geladen wird.
+If you are upgrading from Alpha 9.7.8 or older, remove the old manual entry such as `/local/xparkle-rv-level-card.js?v=978` once, so that the card is not loaded twice.
 
-## Dashboard-Karten
+## Dashboard cards
 
-Ab **v1.0.1-beta.3** wird der passende Entity-Prefix automatisch erkannt. Bei einer normalen Installation ist deshalb kein `entity_prefix` mehr nötig.
+From **v1.0.1-beta.3**, the matching entity prefix is detected automatically. A normal installation therefore no longer needs `entity_prefix`.
 
-Hauptansicht:
+Main view:
 
 ```yaml
 type: custom:xparkle-rv-level-card
 ```
 
-Draufsicht:
+Top view:
 
 ```yaml
 type: custom:xparkle-rv-level-top-card
 ```
 
-Seitenansicht:
+Side view:
 
 ```yaml
 type: custom:xparkle-rv-level-side-card
 ```
 
-Falls die automatische Erkennung in einer speziellen Installation nicht möglich ist, kann der Prefix weiterhin manuell angegeben werden, zum Beispiel:
+If automatic detection is not possible in a particular installation, the prefix can still be specified manually, for example:
 
 ```yaml
 type: custom:xparkle-rv-level-card
 entity_prefix: sensor.rvlevel_410f
 ```
 
-Die bestehenden Entity-IDs und der interne Integrations-Domainname `xparkle_rvlevel` bleiben in der v1-Serie bewusst erhalten, damit bestehende Alpha-Installationen ohne Migration weiterlaufen.
+The existing entity IDs and the internal integration domain `xparkle_rvlevel` are deliberately retained throughout the v1 series, so that existing alpha installations keep working without migration. Entity IDs of existing installations are not changed by the English translation; the card recognises both the original German and the new English entity IDs.
 
-## Unterstützte Sensoren
+## Supported sensors
 
-Die automatische Erkennung erwartet derzeit Bluetooth-Geräte mit einem Namen `RVLevel-*` und der Service-UUID `0000fff0-0000-1000-8000-00805f9b34fb`. Handelsname und Gehäuse können abweichen. Falls ein Fritz-Berger-Gerät mit abweichendem Bluetooth-Namen oder einer anderen UUID ausgeliefert wird, bitte ein GitHub-Issue mit den Bluetooth-Informationen erstellen; dann kann das Profil ergänzt werden.
+Automatic discovery currently expects Bluetooth devices named `RVLevel-*` with the service UUID `0000fff0-0000-1000-8000-00805f9b34fb`. Brand name and housing may differ. If a Fritz Berger device ships with a different Bluetooth name or UUID, please open a GitHub issue including the Bluetooth information so that the profile can be added.
 
-## Fahrzeugprofile
+## Vehicle profiles
 
-Die Fahrzeugauswahl ist hierarchisch aufgebaut: **Hersteller → Modell → Modelljahr → Auffahrkeil**. Dadurch können später weitere Hersteller wie Knaus, Hymer oder Dethleffs ergänzt werden.
+Vehicle selection is hierarchical: **Manufacturer → Model → Model year → Levelling wedge**. This allows further manufacturers such as Knaus, Hymer or Dethleffs to be added later.
 
-Für die Darstellung gilt in der v1-Serie: **Canada AD 2019** behält die eigene Referenzgrafik. Alle anderen derzeit hinterlegten Fahrzeuge verwenden den gemeinsamen Fahrzeuggrafiksatz. In der Draufsicht ist vorne oben und hinten unten.
+For display purposes in the v1 series, **Canada AD 2019** keeps its own reference graphic. All other vehicles currently available use the shared vehicle graphics set. In the top view, the front is at the top and the rear at the bottom.
 
 ## Updates
 
-Neue Versionen werden als GitHub Releases veröffentlicht, z. B. `v1.0.1`, `v1.1.0`. HACS erkennt neue Releases und kann die Integration aktualisieren. Durch die Versionskennung der automatisch geladenen Karte wird bei einem Release ein neuer Frontend-Pfad geladen, ohne dass der Benutzer die Dashboard-Ressource manuell ändern muss.
+New versions are published as GitHub releases, e.g. `v1.0.1`, `v1.1.0`. HACS detects new releases and can update the integration. Thanks to the version identifier of the automatically loaded card, a new frontend path is loaded with each release without the user having to change the dashboard resource manually.
 
-## Fehler melden
+## Reporting issues
 
 Issues: `https://github.com/schmidtbenjamin91-web/rv-level-sensor/issues`
 
-Bitte Home-Assistant-Version, Sensor-Modell/Handelsname, Bluetooth-Gerätename und relevante Log-Ausgaben angeben. Keine privaten Zugangsdaten posten.
+Please include your Home Assistant version, sensor model/brand name, Bluetooth device name and relevant log output. Do not post private credentials.
 
-## Hinweis
+## Disclaimer
 
-Dies ist ein Community-Projekt und keine offizielle Integration von Xparkle, Fritz Berger, Ahorn Camp oder Home Assistant. Marken- und Produktnamen dienen nur der Kompatibilitätsbeschreibung.
+This is a community project and not an official integration of Xparkle, Fritz Berger, Ahorn Camp or Home Assistant. Brand and product names are used only to describe compatibility.

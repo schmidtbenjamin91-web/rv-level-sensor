@@ -1,0 +1,161 @@
+{
+  "config": {
+    "step": {
+      "bluetooth_confirm": {
+        "title": "RV Level Sensor found",
+        "description": "Do you want to add {name}?"
+      },
+      "user": {
+        "title": "RV Level Sensor",
+        "description": "Select a discovered RVLevel device.",
+        "data": {
+          "address": "Device"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "This device is already configured.",
+      "no_devices_found": "No RVLevel device found. Make sure it is switched on and within Bluetooth range.",
+      "not_supported": "The discovered Bluetooth device is not supported."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Vehicle manufacturer",
+        "description": "Select the manufacturer first. Further manufacturers such as Knaus or Hymer may be added later.",
+        "data": {
+          "vehicle_manufacturer": "Manufacturer"
+        }
+      },
+      "model": {
+        "title": "Vehicle model",
+        "description": "Select the manufacturer's model.",
+        "data": {
+          "vehicle_model": "Model"
+        }
+      },
+      "year": {
+        "title": "Model year",
+        "description": "Only the model years available for this model are shown.",
+        "data": {
+          "vehicle_year": "Model year"
+        }
+      },
+      "details": {
+        "title": "Vehicle & levelling wedges",
+        "description": "Selected: {vehicle}. Wheelbase and track width are applied automatically for built-in vehicle profiles.",
+        "data": {
+          "longitudinal_length": "Wheelbase (m)",
+          "transverse_width": "Track width (m)",
+          "wedge_profile": "Levelling wedges",
+          "sensor_orientation": "Sensor orientation"
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "bluetooth_connection": {
+        "name": "Bluetooth connection"
+      }
+    },
+    "button": {
+      "read_now": {
+        "name": "Read BLE values now"
+      },
+      "connect": {
+        "name": "Connect"
+      },
+      "disconnect": {
+        "name": "Disconnect"
+      }
+    },
+    "sensor": {
+      "longitudinal_angle": {
+        "name": "Longitudinal angle"
+      },
+      "transverse_angle": {
+        "name": "Transverse angle"
+      },
+      "configured_length_m": {
+        "name": "Calculation length"
+      },
+      "configured_width_m": {
+        "name": "Calculation width"
+      },
+      "vehicle_profile": {
+        "name": "Vehicle profile"
+      },
+      "wedge_profile": {
+        "name": "Wedge profile"
+      },
+      "wedge_count": {
+        "name": "Wedge count"
+      },
+      "auto_disconnect_remaining": {
+        "name": "Auto-disconnect time remaining"
+      },
+      "longitudinal_lift_cm": {
+        "name": "Longitudinal correction"
+      },
+      "transverse_lift_cm": {
+        "name": "Transverse correction"
+      },
+      "front_left_lift_cm": {
+        "name": "Front left lift"
+      },
+      "front_right_lift_cm": {
+        "name": "Front right lift"
+      },
+      "rear_left_lift_cm": {
+        "name": "Rear left lift"
+      },
+      "rear_right_lift_cm": {
+        "name": "Rear right lift"
+      },
+      "front_left_high_cm": {
+        "name": "Front left too high"
+      },
+      "front_right_high_cm": {
+        "name": "Front right too high"
+      },
+      "rear_left_high_cm": {
+        "name": "Rear left too high"
+      },
+      "rear_right_high_cm": {
+        "name": "Rear right too high"
+      },
+      "level_status": {
+        "name": "Levelling status"
+      },
+      "wedge_front_left_cm": {
+        "name": "Wedge front left"
+      },
+      "wedge_front_right_cm": {
+        "name": "Wedge front right"
+      },
+      "wedge_rear_left_cm": {
+        "name": "Wedge rear left"
+      },
+      "wedge_rear_right_cm": {
+        "name": "Wedge rear right"
+      },
+      "wedge_instruction": {
+        "name": "Wedge recommendation"
+      },
+      "triple_front_left": {
+        "name": "Milenco front left"
+      },
+      "triple_front_right": {
+        "name": "Milenco front right"
+      },
+      "triple_rear_left": {
+        "name": "Milenco rear left"
+      },
+      "triple_rear_right": {
+        "name": "Milenco rear right"
+      }
+    }
+  }
+}

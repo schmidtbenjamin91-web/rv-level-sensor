@@ -71,7 +71,8 @@ for _model, _wb, _body, _length in (
     _slug = _model.lower().replace(" ", "_")
     _vehicle(f"ahorn_{_slug}_2026", _model, 2026, _wb, 1.75, _body, _length)
 
-VEHICLE_PROFILES["custom"] = {"label": "Benutzerdefiniertes Fahrzeug", "manufacturer": "Benutzerdefiniert", "model": "Benutzerdefiniert"}
+CUSTOM = "Custom"
+VEHICLE_PROFILES["custom"] = {"label": "Custom vehicle", "manufacturer": CUSTOM, "model": CUSTOM}
 
 WEDGE_PROFILES = {
     "milenco_triple_3": {"label": "Milenco · Triple Level / Triple 3", "manufacturer": "Milenco", "model": "Triple Level", "stages_cm": [4.0, 8.0, 12.0]},

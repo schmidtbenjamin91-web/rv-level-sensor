@@ -13,7 +13,7 @@ from .const import (
     CONF_WEDGE_PROFILE, DEFAULT_VEHICLE_PROFILE, DEFAULT_WEDGE_PROFILE,
     CONF_SENSOR_ORIENTATION, DEFAULT_SENSOR_ORIENTATION,
     SENSOR_ORIENTATION_NORMAL, SENSOR_ORIENTATION_ROTATED_180,
-    VEHICLE_PROFILES, WEDGE_PROFILES,
+    VEHICLE_PROFILES, WEDGE_PROFILES, CUSTOM,
 )
 
 class XparkleRVLevelConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -50,10 +50,10 @@ class XparkleRVLevelOptionsFlow(config_entries.OptionsFlow):
     def _current_vehicle(self):
         return VEHICLE_PROFILES.get(self._current_profile(), VEHICLE_PROFILES[DEFAULT_VEHICLE_PROFILE])
     async def async_step_init(self,user_input=None):
-        current=self._current_vehicle(); manufacturers=sorted({v.get("manufacturer") for k,v in VEHICLE_PROFILES.items() if k!="custom"})+["Benutzerdefiniert"]
+        current=self._current_vehicle(); manufacturers=sorted({v.get("manufacturer") for k,v in VEHICLE_PROFILES.items() if k!="custom"})+[CUSTOM]
         if user_input is not None:
             self._selection[CONF_VEHICLE_MANUFACTURER]=user_input[CONF_VEHICLE_MANUFACTURER]
-            if user_input[CONF_VEHICLE_MANUFACTURER]=="Benutzerdefiniert": return await self.async_step_details()
+            if user_input[CONF_VEHICLE_MANUFACTURER]==CUSTOM: return await self.async_step_details()
             return await self.async_step_model()
         default=current.get("manufacturer","Ahorn Camp")
         return self.async_show_form(step_id="init",data_schema=vol.Schema({vol.Required(CONF_VEHICLE_MANUFACTURER,default=default):vol.In(manufacturers)}))
@@ -75,7 +75,7 @@ class XparkleRVLevelOptionsFlow(config_entries.OptionsFlow):
             return await self.async_step_details()
         return self.async_show_form(step_id="year",data_schema=vol.Schema({vol.Required(CONF_VEHICLE_YEAR,default=default):vol.In(years)}))
     async def async_step_details(self,user_input=None):
-        o=self.config_entry.options; custom=self._selection.get(CONF_VEHICLE_MANUFACTURER)=="Benutzerdefiniert"
+        o=self.config_entry.options; custom=self._selection.get(CONF_VEHICLE_MANUFACTURER)==CUSTOM
         profile=self._selection.get(CONF_VEHICLE_PROFILE,"custom" if custom else self._current_profile())
         vehicle=VEHICLE_PROFILES.get(profile,{})
         current_wedge=o.get(CONF_WEDGE_PROFILE,DEFAULT_WEDGE_PROFILE)
@@ -91,9 +91,9 @@ class XparkleRVLevelOptionsFlow(config_entries.OptionsFlow):
                 vol.Required(CONF_LONGITUDINAL_LENGTH,default=current_length):vol.All(vol.Coerce(float),vol.Range(min=.5,max=20)),
                 vol.Required(CONF_TRANSVERSE_WIDTH,default=current_width):vol.All(vol.Coerce(float),vol.Range(min=.5,max=5)),
                 vol.Required(CONF_WEDGE_PROFILE,default=current_wedge):vol.In({k:v["label"] for k,v in WEDGE_PROFILES.items()}),
-                vol.Required(CONF_SENSOR_ORIENTATION,default=current_orientation):vol.In({SENSOR_ORIENTATION_NORMAL:"Normal",SENSOR_ORIENTATION_ROTATED_180:"180° gedreht"}),})
+                vol.Required(CONF_SENSOR_ORIENTATION,default=current_orientation):vol.In({SENSOR_ORIENTATION_NORMAL:"Normal",SENSOR_ORIENTATION_ROTATED_180:"Rotated 180°"}),})
         else:
             schema=vol.Schema({
                 vol.Required(CONF_WEDGE_PROFILE,default=current_wedge):vol.In({k:v["label"] for k,v in WEDGE_PROFILES.items()}),
-                vol.Required(CONF_SENSOR_ORIENTATION,default=current_orientation):vol.In({SENSOR_ORIENTATION_NORMAL:"Normal",SENSOR_ORIENTATION_ROTATED_180:"180° gedreht"}),})
-        return self.async_show_form(step_id="details",data_schema=schema,description_placeholders={"vehicle":vehicle.get("label","Benutzerdefiniert")})
+                vol.Required(CONF_SENSOR_ORIENTATION,default=current_orientation):vol.In({SENSOR_ORIENTATION_NORMAL:"Normal",SENSOR_ORIENTATION_ROTATED_180:"Rotated 180°"}),})
+        return self.async_show_form(step_id="details",data_schema=schema,description_placeholders={"vehicle":vehicle.get("label",CUSTOM)})

@@ -14,18 +14,18 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
     coordinator: RVLevelCoordinator = entry.runtime_data
     # Explicit list: all three entities are instantiated on every platform setup.
     async_add_entities([
-        RVLevelActionButton(coordinator, "read_now", "Read BLE values now"),
-        RVLevelActionButton(coordinator, "connect", "Connect"),
-        RVLevelActionButton(coordinator, "disconnect", "Disconnect"),
+        RVLevelActionButton(coordinator, "read_now"),
+        RVLevelActionButton(coordinator, "connect"),
+        RVLevelActionButton(coordinator, "disconnect"),
     ], update_before_add=False)
 
 class RVLevelActionButton(ButtonEntity):
     _attr_has_entity_name = True
 
-    def __init__(self, coordinator: RVLevelCoordinator, key: str, name: str) -> None:
+    def __init__(self, coordinator: RVLevelCoordinator, key: str) -> None:
         self.coordinator = coordinator
         self._key = key
-        self._attr_name = name
+        self._attr_translation_key = key
         self._attr_unique_id = f"{coordinator.address}_{key}"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, coordinator.address)},
